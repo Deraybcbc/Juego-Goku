@@ -22,6 +22,6 @@ public class AssetManager {
     }
 
     public static void dispose(){
-
+        sheet.dispose();
     }
 }

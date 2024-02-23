@@ -1,12 +1,16 @@
 package screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class GameScreen implements Screen {
 
+    private Stage stage;
+
 
     public GameScreen() {
-
+        // Creem l'stage
+        stage = new Stage();
 
     }
 
@@ -17,7 +21,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
+        // Dibuixem i actualitzem tots els actors de l'stage
+        stage.draw();
+        stage.act(delta);
     }
 
     @Override

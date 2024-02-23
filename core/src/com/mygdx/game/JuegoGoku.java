@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 
 import screen.AssetManager;
 import screen.GameScreen;
+import screen.PantallaPrincipal;
 
 public class JuegoGoku extends Game {
     @Override
@@ -13,7 +14,7 @@ public class JuegoGoku extends Game {
         // A l'iniciar el joc carreguem els recursos
         AssetManager.load();
         // I definim la pantalla principal com a la pantalla
-        setScreen((Screen) new GameScreen());
+        setScreen((Screen) new PantallaPrincipal());
 
     }
 
