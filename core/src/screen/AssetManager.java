@@ -13,20 +13,12 @@
         public static void load() {
 
             // Carreguem les textures i li apliquem el mètode d'escalat 'nearest'
-            sheet = new Texture(Gdx.files.internal("kame_house_foto.jpg"));
+            sheet = new Texture(Gdx.files.internal("house.jpg"));
             sheet.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
-
-            // Carreguem les textures i li apliquem el mètode d'escalat 'nearest'
-            sheet2 = new Texture(Gdx.files.internal("fondo_principal.jpg"));
-            sheet2.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
 
             // Fons de pantalla
             background = new TextureRegion(sheet);
-
-            backgroundP
-
-
 
         }
 

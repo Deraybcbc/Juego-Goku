@@ -5,7 +5,9 @@
     import com.badlogic.gdx.graphics.GL20;
     import com.badlogic.gdx.graphics.OrthographicCamera;
     import com.badlogic.gdx.graphics.Texture;
+    import com.badlogic.gdx.graphics.g2d.BitmapFont;
     import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+    import com.badlogic.gdx.graphics.g2d.TextureRegion;
     import com.badlogic.gdx.scenes.scene2d.Stage;
     import com.badlogic.gdx.utils.viewport.StretchViewport;
 
@@ -19,33 +21,42 @@
 
         Background background, bg_back;
 
-        ScrollHandler scrollHandler;
-
-
-        private SpriteBatch batch; // Declaración del SpriteBatch
-
-        Stage stage;
+        private Stage stage;
+        private SpriteBatch batch;
+        private BitmapFont font;
 
         public PantallaPrincipal() {
 
             // Crear el objeto SpriteBatch
             batch = new SpriteBatch();
-
-            // Cargar los recursos utilizando AssetManager
-            AssetManager.load();
-
-
         }
 
         @Override
         public void show() {
 
+            // Cargar los recursos utilizando AssetManager
+            AssetManager.load();
+
+
+            background = new Background(0, 0 , Settings.GAME_WIDTH *2,Settings.GAME_HEIGHT, Settings.BG_SPEED);
+            bg_back = new Background(background.getTailX(),0 ,Settings.GAME_WIDTH *2,Settings.GAME_HEIGHT, Settings.BG_SPEED);
 
         }
 
         @Override
         public void render(float delta) {
 
+            // Limpiar la pantalla
+            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+            // Actualizar y dibujar el fondo
+            batch.begin();
+            background.act(delta);
+            bg_back.act(delta);
+            background.draw(batch, 1); // El valor de parentAlpha es 1, se puede ajustar según sea necesario
+            bg_back.draw(batch,1);
+            batch.end();
         }
 
         @Override
@@ -70,6 +81,8 @@
 
         @Override
         public void dispose() {
-
+            batch.dispose();
+            font.dispose();
+            stage.dispose();
         }
     }
