@@ -4,8 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import screen.AssetManager;
 
-public class Background extends Scrollable {
-
+public class Background extends  Scrollable{
     public Background(float x, float y, float width, float height, float velocity) {
         super(x, y, width, height, velocity);
     }

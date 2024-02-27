@@ -3,14 +3,20 @@ package screen;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import cat.xtec.ioc.objects.ScrollHandler;
+
 public class GameScreen implements Screen {
 
     private Stage stage;
+
+    private ScrollHandler scrollHandler;
 
 
     public GameScreen() {
         // Creem l'stage
         stage = new Stage();
+
+        stage.addActor(scrollHandler);
 
     }
 
