@@ -93,13 +93,31 @@ public class PantallaPrincipal implements Screen {
         buttonStyle.font = font; // Utilizamos la misma fuente que para las etiquetas
         buttonStyle.fontColor = Color.BLACK; // Color del texto del botón
 
+        TextButton.TextButtonStyle empezarJuegoButtonStyle = new TextButton.TextButtonStyle();
+        empezarJuegoButtonStyle.font = font;
+        empezarJuegoButtonStyle.fontColor = Color.BLACK;
+
 // Establecer el fondo del botón (puedes personalizarlo según tus necesidades)
-        TextureRegionDrawable buttonBackground = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("settings.png"))));
-        buttonStyle.up = buttonBackground;
+        TextureRegionDrawable buttonSettings = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("settings.png"))));
+        TextureRegionDrawable buttonStarts = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("starts.png"))));
+
+        buttonStyle.up = buttonSettings;
+        empezarJuegoButtonStyle.up = buttonStarts;
 
 // Crear los botones
-        TextButton empezarJuegoButton = new TextButton("Empezar Juego", buttonStyle);
-        TextButton menuButton = new TextButton("Menú", buttonStyle);
+        TextButton empezarJuegoButton = new TextButton("Empezar Juego", empezarJuegoButtonStyle);
+        TextButton menuButton = new TextButton("Menu", buttonStyle);
+
+        // Crear un nuevo Table para organizar los botones
+        Table buttonTable = new Table();
+        buttonTable.setFillParent(true); // El Table se ajustará al tamaño del stage
+
+// Agregar los botones al Table
+        buttonTable.add(empezarJuegoButton).padBottom(20).row(); // Agrega el botón "Empezar Juego" con un espacio inferior de 20 píxeles
+        buttonTable.add(menuButton).padBottom(20).row(); // Agrega el botón "Menú" con un espacio inferior de 20 píxeles
+
+// Agregar el Table al stage
+        buttonStage.addActor(buttonTable);
 
 // Agregar oyentes de eventos a los botones si es necesario
         empezarJuegoButton.addListener(new InputListener() {
