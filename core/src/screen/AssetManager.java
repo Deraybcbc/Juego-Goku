@@ -1,14 +1,19 @@
     package screen;
 
     import com.badlogic.gdx.Gdx;
+    import com.badlogic.gdx.files.FileHandle;
     import com.badlogic.gdx.graphics.Texture;
+    import com.badlogic.gdx.graphics.g2d.BitmapFont;
     import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
     public class AssetManager {
 
-        public static Texture sheet, sheet2;
+        public static Texture sheet, fontFile;
 
-        public static TextureRegion background, backgroundP;
+        public static TextureRegion background;
+
+        // Font
+        public static BitmapFont font;
 
         public static void load() {
 
