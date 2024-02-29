@@ -1,5 +1,7 @@
 package screen;
 
+import static com.badlogic.gdx.math.MathUtils.random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,6 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.Gogeta;
 import com.mygdx.game.Robots;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 import cat.xtec.ioc.objects.ScrollHandler;
 import helpers.InputHandler;
@@ -22,6 +27,15 @@ public class GameScreen implements Screen {
     private Gogeta gogeta;
 
     private Robots robots;
+
+    // Asteroides
+    int numAsteroids;
+    ArrayList<Robots> robotsArrayList;
+
+    // Objecte random
+    Random r;
+
+    Boolean gameover = false;
 
 
     public GameScreen() {
@@ -44,6 +58,9 @@ public class GameScreen implements Screen {
 
         scrollHandler = new ScrollHandler();
 
+        // Inicializar la lista de robots
+        robotsArrayList = new ArrayList<>();
+
         stage.addActor(scrollHandler);
 
         // Creem la nau i la resta d'objectes
@@ -56,6 +73,7 @@ public class GameScreen implements Screen {
 
         gogeta.setName("Gogeta");
 
+
         // Assignem com a gestor d'entrada la classe InputHandler
         Gdx.input.setInputProcessor(new InputHandler(this));
     }
@@ -64,6 +82,14 @@ public class GameScreen implements Screen {
     public void show() {
 
     }
+
+    // Método para generar un nuevo robot y añadirlo al stage
+    private void generateRobot() {
+        Robots robot = new Robots();
+        robotsArrayList.add(robot);
+        stage.addActor(robot);
+    }
+
 
     @Override
     public void render(float delta) {
@@ -74,6 +100,42 @@ public class GameScreen implements Screen {
         // Dibuixem i actualitzem tots els actors de l'stage
         stage.draw();
         stage.act(delta);
+        if(!gameover){
+            if(robots.collides(gogeta)){
+                System.out.println("CHOQUE");
+                stage.getRoot().findActor("Gogeta").remove();
+                gameover = true;
+            }
+        }else{
+
+        }
+
+        // Generar un nuevo robot aleatorio a intervalos regulares
+        if (random.nextFloat() < Settings.ROBOT_SPAWN_CHANCE_PER_FRAME) {
+            generateRobot();
+        }
+
+        // Mover y eliminar los robots que estén fuera de la pantalla
+        for (int i = robotsArrayList.size() - 1; i >= 0; i--) {
+            Robots robot = robotsArrayList.get(i);
+            robot.act(delta);
+            if (robot.isLeftOfScreen()) {
+                robotsArrayList.remove(robot);
+                robot.remove();
+            }
+        }
+
+    }
+
+    public boolean collides(Gogeta gogeta) {
+
+        // Comprovem les col·lisions entre cada asteroide i la nau
+        for (Robots robots1 : robotsArrayList) {
+            if (robots1.collides(gogeta)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
