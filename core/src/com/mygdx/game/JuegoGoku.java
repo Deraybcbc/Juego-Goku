@@ -2,19 +2,26 @@
 
     import com.badlogic.gdx.Game;
     import com.badlogic.gdx.Screen;
+    import com.badlogic.gdx.graphics.g2d.BitmapFont;
+    import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
     import screen.AssetManager;
     import screen.GameScreen;
     import screen.PantallaPrincipal;
 
     public class JuegoGoku extends Game {
+
+        private SpriteBatch spriteBatch;
+        private BitmapFont bitmapFont;
+
         @Override
         public void create() {
 
-            // A l'iniciar el joc carreguem els recursos
-            AssetManager.load();
+            spriteBatch = new SpriteBatch();
+            bitmapFont = new BitmapFont();
+
             // I definim la pantalla principal com a la pantalla
-            setScreen(new PantallaPrincipal());
+            setScreen(new PantallaPrincipal(this));
 
         }
 
@@ -22,6 +29,23 @@
         @Override
         public void dispose() {
             super.dispose();
-            AssetManager.dispose();
+            spriteBatch.dispose();
+            bitmapFont.dispose();
+        }
+
+        public SpriteBatch getSpriteBatch() {
+            return spriteBatch;
+        }
+
+        public void setSpriteBatch(SpriteBatch spriteBatch) {
+            this.spriteBatch = spriteBatch;
+        }
+
+        public BitmapFont getBitmapFont() {
+            return bitmapFont;
+        }
+
+        public void setBitmapFont(BitmapFont bitmapFont) {
+            this.bitmapFont = bitmapFont;
         }
     }
