@@ -27,10 +27,10 @@ public class Gogeta extends Actor {
 
     private Rectangle collisionRect;
 
-    public Gogeta(float x, float y, int width, int height) {
-        this.width = width;
-        this.height = height;
-        position = new Vector2(x, y);
+    public Gogeta() {
+        this.width = Settings.GOGETA_WIDTH;
+        this.height = Settings.GOGETA_HEIGHT;
+        position = new Vector2(Settings.GOGETA_STARTX, Settings.GOGETA_STARTY);
 
         // Inicialitzem l'Spacecraft a l'estat normal
         direction = GOGETA_STRAIGHT;
@@ -78,10 +78,10 @@ public class Gogeta extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw(getSpacecraftTexture(), position.x, position.y, width, height);
+        batch.draw(getGogetaTexture(), position.x, position.y, width, height);
     }
 
-    public TextureRegion getSpacecraftTexture() {
+    public TextureRegion getGogetaTexture() {
 
         switch (direction) {
 

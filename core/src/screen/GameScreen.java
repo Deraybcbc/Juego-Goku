@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.Gogeta;
+import com.mygdx.game.Robots;
 
 import cat.xtec.ioc.objects.ScrollHandler;
 import helpers.InputHandler;
@@ -20,6 +21,7 @@ public class GameScreen implements Screen {
 
     private Gogeta gogeta;
 
+    private Robots robots;
 
 
     public GameScreen() {
@@ -45,8 +47,11 @@ public class GameScreen implements Screen {
         stage.addActor(scrollHandler);
 
         // Creem la nau i la resta d'objectes
-        gogeta = new Gogeta(Settings.GOGETA_STARTX, Settings.GOGETA_STARTY, Settings.GOGETA_WIDTH, Settings.GOGETA_HEIGHT);
+        gogeta = new Gogeta();
 
+        robots = new Robots();
+
+        stage.addActor(robots);
         stage.addActor(gogeta);
 
         gogeta.setName("Gogeta");

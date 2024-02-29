@@ -16,4 +16,12 @@ public class Settings {
     public static final float GOGETA_STARTX = 20;
     public static final float GOGETA_STARTY = GAME_HEIGHT/2 - GOGETA_HEIGHT /2;
 
+    // Rang de valors per canviar la mida de l'asteroide
+    public static final float MAX_ROBOTS = 1.5f;
+    public static final float MIN_ROBOTS = 0.5f;
+
+    // Configuració scrollable
+    public static final int ROBOTS_SPEED = -150;
+    public static final int ROBOTS_GAP = 75;
+
 }

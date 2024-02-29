@@ -1,50 +1,73 @@
-    package screen;
+package screen;
 
-    import com.badlogic.gdx.Gdx;
-    import com.badlogic.gdx.files.FileHandle;
-    import com.badlogic.gdx.graphics.Texture;
-    import com.badlogic.gdx.graphics.g2d.BitmapFont;
-    import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-    public class AssetManager {
+public class AssetManager {
 
-        public static Texture sheet, sheetgogeta;
+    public static Texture sheet, sheetgogeta, sheetenemigos;
 
-        public static TextureRegion background, gogeta, gogetaDown, gogetaUp, gogetaRight, gogetaLeft;
+    public static TextureRegion background, gogeta, gogetaDown, gogetaUp, gogetaRight, gogetaLeft;
 
-        // Font
-        public static BitmapFont font;
+    public static Animation robotsAnim;
+    public static TextureRegion[] robots;
 
-        public static void load() {
+    public static TextureRegion[] explosion;
 
-            // Carreguem les textures i li apliquem el mètode d'escalat 'nearest'
-            sheet = new Texture(Gdx.files.internal("house.jpg"));
-            sheet.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
-            sheetgogeta = new Texture(Gdx.files.internal("Gogeta.png"));
-            sheetgogeta.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+    // Font
+    public static BitmapFont font;
 
-            gogeta = new TextureRegion(sheetgogeta, 4 ,89, 29,49);
-            gogeta.flip(false, false);
+    public static void load() {
 
-            gogetaUp = new TextureRegion(sheetgogeta,753,137, 29,49);
-            gogetaUp.flip(false, false);
+        // Carreguem les textures i li apliquem el mètode d'escalat 'nearest'
+        sheet = new Texture(Gdx.files.internal("house.jpg"));
+        sheet.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
-            gogetaDown = new TextureRegion(sheetgogeta, 713, 139, 29,49);
-            gogetaDown.flip(false, false);
+        sheetgogeta = new Texture(Gdx.files.internal("Gogeta.png"));
+        sheetgogeta.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
-            gogetaRight = new TextureRegion(sheetgogeta,149, 92, 29,49);
-            gogetaRight.flip(false, false);
+        sheetenemigos = new Texture(Gdx.files.internal("enemigos.png"));
+        sheetenemigos.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
-            gogetaLeft = new TextureRegion(sheetgogeta,192,88,29,49);
-            gogetaLeft.flip(false, false);
+        gogeta = new TextureRegion(sheetgogeta, 4, 89, 29, 49);
+        gogeta.flip(false, false);
 
-            // Fons de pantalla
-            background = new TextureRegion(sheet);
+        gogetaUp = new TextureRegion(sheetgogeta, 753, 137, 29, 49);
+        gogetaUp.flip(false, false);
 
+        gogetaDown = new TextureRegion(sheetgogeta, 713, 139, 29, 49);
+        gogetaDown.flip(false, false);
+
+        gogetaRight = new TextureRegion(sheetgogeta, 149, 92, 29, 49);
+        gogetaRight.flip(false, false);
+
+        gogetaLeft = new TextureRegion(sheetgogeta, 192, 88, 29, 49);
+        gogetaLeft.flip(false, false);
+
+
+        robots = new TextureRegion[7];
+        for (int i = 0; i < robots.length; i++) {
+            robots[i] = new TextureRegion(sheetenemigos, i * 359, 168, 45, 38);
+            robots[i].flip(false, false);
         }
 
-        public static void dispose(){
-            sheet.dispose();
-        }
+        robotsAnim = new Animation(0.05f, robots);
+        robotsAnim.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
+
+
+
+
+        // Fons de pantalla
+        background = new TextureRegion(sheet);
+
     }
+
+    public static void dispose() {
+        sheet.dispose();
+    }
+}
