@@ -100,6 +100,7 @@ public class GameScreen implements Screen {
         // Dibuixem i actualitzem tots els actors de l'stage
         stage.draw();
         stage.act(delta);
+
         if(!gameover){
             if(robots.collides(gogeta)){
                 System.out.println("CHOQUE");
@@ -107,7 +108,7 @@ public class GameScreen implements Screen {
                 gameover = true;
             }
         }else{
-
+            //System.out.println("SIGUE VIVO");
         }
 
         // Generar un nuevo robot aleatorio a intervalos regulares

@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -35,11 +36,14 @@ public class Gogeta extends Actor {
         // Inicialitzem l'Spacecraft a l'estat normal
         direction = GOGETA_STRAIGHT;
 
-        // Creem el rectangle de col·lisions
-        collisionRect = new Rectangle();
+        // Creem el rectangle de col·lisions con las dimensiones del sprite
+        collisionRect = new Rectangle(position.x, position.y, width, height);
+
     }
 
     public void act(float delta) {
+
+
 
         // Movem l'Spacecraft depenent de la direcció controlant que no surti de la pantalla
         switch (direction) {
@@ -68,7 +72,8 @@ public class Gogeta extends Actor {
             case GOGETA_STRAIGHT:
                 break;
         }
-        collisionRect.set(position.x, position.y + 3, width, 10);
+        // Actualizar la posición del rectángulo de colisión
+        collisionRect.setPosition(position.x, position.y);
     }
 
     public Rectangle getCollisionRect() {
@@ -79,6 +84,17 @@ public class Gogeta extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         batch.draw(getGogetaTexture(), position.x, position.y, width, height);
+
+
+        // Dibujar la hitbox del Gogeta con líneas blancas
+        batch.end(); // Finalizar el batch para comenzar a usar líneas primitivas
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(1, 1, 1, 1); // Establecer color blanco
+        shapeRenderer.rect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
+        shapeRenderer.end();
+        batch.begin(); // Volver a comenzar el batch para dibujar texturas
     }
 
     public TextureRegion getGogetaTexture() {

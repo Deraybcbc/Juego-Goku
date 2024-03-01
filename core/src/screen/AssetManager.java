@@ -34,7 +34,7 @@ public class AssetManager {
         sheetenemigos = new Texture(Gdx.files.internal("enemigos.png"));
         sheetenemigos.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
 
-        gogeta = new TextureRegion(sheetgogeta, 4, 89, 29, 49);
+        gogeta = new TextureRegion(sheetgogeta, 384, 213, 39, 49);
         gogeta.flip(false, false);
 
         gogetaUp = new TextureRegion(sheetgogeta, 753, 137, 29, 49);
@@ -50,16 +50,13 @@ public class AssetManager {
         gogetaLeft.flip(false, false);
 
 
-        robots = new TextureRegion[7];
-        for (int i = 0; i < robots.length; i++) {
-            robots[i] = new TextureRegion(sheetenemigos, i * 359, 168, 45, 38);
-            robots[i].flip(false, false);
-        }
+        robots = new TextureRegion[2];
 
-        robotsAnim = new Animation(0.05f, robots);
-        robotsAnim.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
+        robots[0] = new TextureRegion(sheetenemigos, 358, 168, 55, 48);
+        robots[1] = new TextureRegion(sheetenemigos, 415, 168, 55, 48);
 
-
+        robotsAnim = new Animation(0.30f, robots);
+        robotsAnim.setPlayMode(Animation.PlayMode.LOOP);
 
 
         // Fons de pantalla
