@@ -28,6 +28,20 @@ public class Gogeta extends Actor {
 
     private Rectangle collisionRect;
 
+    private boolean isDamaged = false;
+
+    private float damageTimeElapsed = 0;
+    private static final float DAMAGE_DURATION = 0.05f; // Duración de la animación de daño en segundos
+
+    private int damageCount = 0;
+    public static final int MAX_DAMAGE_COUNT = 4; // Número máximo de golpes recibidos antes de desactivar la animación de daño
+
+    private int vidas; // Atributo para las vidas
+
+    private boolean damageProcessed = false; // Variable para controlar si el daño ha sido procesado
+
+
+
     public Gogeta() {
         this.width = Settings.GOGETA_WIDTH;
         this.height = Settings.GOGETA_HEIGHT;
@@ -39,11 +53,11 @@ public class Gogeta extends Actor {
         // Creem el rectangle de col·lisions con las dimensiones del sprite
         collisionRect = new Rectangle(position.x, position.y, width, height);
 
+        vidas = 4;
+
     }
 
     public void act(float delta) {
-
-
 
         // Movem l'Spacecraft depenent de la direcció controlant que no surti de la pantalla
         switch (direction) {
@@ -74,6 +88,28 @@ public class Gogeta extends Actor {
         }
         // Actualizar la posición del rectángulo de colisión
         collisionRect.setPosition(position.x, position.y);
+
+        if (isDamaged) {
+            damageTimeElapsed += delta;
+            if (!damageProcessed) {
+                loseLife(); // Restar una vida solo si el daño no se ha procesado antes
+                damageProcessed = true; // Marcar el daño como procesado
+            }
+            if (damageTimeElapsed >= DAMAGE_DURATION) {
+                if (damageCount < MAX_DAMAGE_COUNT) {
+                    damageCount++; // Aumentar el contador de golpes recibidos solo si no ha alcanzado el máximo
+                }
+                if (damageCount >= MAX_DAMAGE_COUNT) {
+                    isDamaged = false; // Desactivar la animación de daño si se han recibido suficientes golpes
+                    damageCount = 0; // Reiniciar el contador de golpes recibidos
+                }
+                damageTimeElapsed = 0; // Reiniciar el temporizador
+                damageProcessed = false; // Restablecer el estado de procesamiento de daño
+            }
+        }
+    }
+    public void loseLife() {
+        vidas--;
     }
 
     public Rectangle getCollisionRect() {
@@ -83,8 +119,12 @@ public class Gogeta extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw(getGogetaTexture(), position.x, position.y, width, height);
 
+        if (isDamaged) {
+            batch.draw(AssetManager.gogetaDaño, position.x, position.y, width, height);
+        } else {
+            batch.draw(getGogetaTexture(), position.x, position.y, width, height);
+        }
 
         // Dibujar la hitbox del Gogeta con líneas blancas
         batch.end(); // Finalizar el batch para comenzar a usar líneas primitivas
@@ -156,5 +196,41 @@ public class Gogeta extends Actor {
     // Cambia la dirección del personaje hacia la izquierda
     public void goLeft() {
         direction = GOGETA_LEFT;
+    }
+
+    public boolean isDamaged() {
+        return isDamaged;
+    }
+
+    public void setDamaged(boolean damaged) {
+        isDamaged = damaged;
+        if (!damaged) {
+            // Si el daño está desactivado, reiniciar el contador de golpes recibidos
+            damageCount = 0;
+        }
+    }
+
+    public int getDamageCount() {
+        return damageCount;
+    }
+
+    public void incrementDamageCount() {
+        damageCount++;
+    }
+
+    public boolean isMaxDamageReached() {
+        return damageCount >= MAX_DAMAGE_COUNT;
+    }
+
+    public void setDamageCount(int damageCount) {
+        this.damageCount = damageCount;
+    }
+
+    public int getVidas() {
+        return vidas;
+    }
+
+    public void setVidas(int vidas) {
+        this.vidas = vidas;
     }
 }

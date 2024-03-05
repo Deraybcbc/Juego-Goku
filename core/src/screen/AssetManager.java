@@ -11,7 +11,7 @@ public class AssetManager {
 
     public static Texture sheet, sheetgogeta, sheetenemigos;
 
-    public static TextureRegion background, gogeta, gogetaDown, gogetaUp, gogetaRight, gogetaLeft;
+    public static TextureRegion background, gogeta, gogetaDown, gogetaUp, gogetaRight, gogetaLeft, gogetaDaño;
 
     public static Animation robotsAnim;
     public static TextureRegion[] robots;
@@ -48,6 +48,9 @@ public class AssetManager {
 
         gogetaLeft = new TextureRegion(sheetgogeta, 192, 88, 29, 49);
         gogetaLeft.flip(false, false);
+
+        gogetaDaño = new TextureRegion(sheetgogeta, 111,208,29,49);
+        gogetaDaño.flip(false,false);
 
 
         robots = new TextureRegion[2];

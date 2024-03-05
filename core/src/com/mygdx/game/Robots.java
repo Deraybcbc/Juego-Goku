@@ -103,15 +103,12 @@
 
             collisionCircle.set(position.x + width / 2, position.y + height / 2, width / 2);
 
-
             if (position.x <= gogeta.getX() + gogeta.getWidth()) {
-                // Comprovem si han col·lisionat sempre que l'asteroide es trobi a la mateixa alçada que l'spacecraft
-                //System.out.println("¡Se ha producido una colisión con Gogeta!");
-                if(Intersector.overlaps(collisionCircle, gogeta.getCollisionRect())){
-                    System.out.println("CHOEQUE");
+                // Comprobamos si han colisionado siempre que el robot esté a la misma altura que Gogeta
+                if (Intersector.overlaps(collisionCircle, gogeta.getCollisionRect())) {
+                    gogeta.loseLife(); // Restar una vida a Gogeta cuando haya una colisión
+                    return true;
                 }
-                return (Intersector.overlaps(collisionCircle, gogeta.getCollisionRect()));
-
             }
             return false;
         }
