@@ -92,7 +92,6 @@ public class Gogeta extends Actor {
         if (isDamaged) {
             damageTimeElapsed += delta;
             if (!damageProcessed) {
-                loseLife(); // Restar una vida solo si el daño no se ha procesado antes
                 damageProcessed = true; // Marcar el daño como procesado
             }
             if (damageTimeElapsed >= DAMAGE_DURATION) {

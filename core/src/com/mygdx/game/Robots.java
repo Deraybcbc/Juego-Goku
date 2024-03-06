@@ -54,9 +54,6 @@
 
             //System.out.println("¡Nuevo robot creado en la posición: (" + position.x + ", " + position.y + ")!");
 
-
-
-
             // Creem el cercle
             collisionCircle = new Circle();
         }
@@ -106,7 +103,6 @@
             if (position.x <= gogeta.getX() + gogeta.getWidth()) {
                 // Comprobamos si han colisionado siempre que el robot esté a la misma altura que Gogeta
                 if (Intersector.overlaps(collisionCircle, gogeta.getCollisionRect())) {
-                    gogeta.loseLife(); // Restar una vida a Gogeta cuando haya una colisión
                     return true;
                 }
             }

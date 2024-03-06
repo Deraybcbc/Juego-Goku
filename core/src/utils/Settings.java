@@ -31,6 +31,6 @@ public class Settings {
     public static final float MIN_ROBOT_SPEED = 100; // Velocidad mínima del robot
     public static final float MAX_ROBOT_SPEED = 300; // Velocidad máxima del robot
 
-    public static final double ROBOT_SPAWN_CHANCE_PER_FRAME = 0.02;
+    public static final double ROBOT_SPAWN_CHANCE_PER_FRAME = 0.04;
 
 }
