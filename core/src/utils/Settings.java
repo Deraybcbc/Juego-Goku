@@ -14,6 +14,9 @@ public class Settings {
     public static final int GOGETA_WIDTH = 49;
     public static final int GOGETA_HEIGHT = 89;
 
+    public static final int GOGETA_WIDTH_DEAD = 100;
+    public static final int GOGETA_HEIGHT_DEAD = 200;
+
     public static final float GOGETA_STARTX = 20;
     public static final float GOGETA_STARTY = GAME_HEIGHT/2 - GOGETA_HEIGHT /2;
 

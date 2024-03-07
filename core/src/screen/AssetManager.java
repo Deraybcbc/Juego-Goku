@@ -14,10 +14,14 @@ public class AssetManager {
     public static TextureRegion background, gogeta, gogetaDown, gogetaUp, gogetaRight, gogetaLeft, gogetaDaño;
 
     public static Animation robotsAnim;
+
+    public static Animation muertegogeta;
+
     public static TextureRegion[] robots;
 
     public static TextureRegion[] explosion;
 
+    public static TextureRegion[] gogetamuerto;
 
     // Font
     public static BitmapFont font;
@@ -49,8 +53,8 @@ public class AssetManager {
         gogetaLeft = new TextureRegion(sheetgogeta, 192, 88, 29, 49);
         gogetaLeft.flip(false, false);
 
-        gogetaDaño = new TextureRegion(sheetgogeta, 111,208,29,49);
-        gogetaDaño.flip(false,false);
+        gogetaDaño = new TextureRegion(sheetgogeta, 111, 208, 29, 49);
+        gogetaDaño.flip(false, false);
 
 
         robots = new TextureRegion[2];
@@ -60,6 +64,16 @@ public class AssetManager {
 
         robotsAnim = new Animation(0.30f, robots);
         robotsAnim.setPlayMode(Animation.PlayMode.LOOP);
+
+        gogetamuerto = new TextureRegion[4];
+        gogetamuerto[0] = new TextureRegion(sheetgogeta, 227, 212, 29, 49);
+        gogetamuerto[1] = new TextureRegion(sheetgogeta, 262, 208, 29, 49);
+        gogetamuerto[2] = new TextureRegion(sheetgogeta, 293, 205, 29, 49);
+        gogetamuerto[3] = new TextureRegion(sheetgogeta, 327, 230, 56, 27);
+
+
+        muertegogeta =  new Animation(0.50f, gogetamuerto);
+        muertegogeta.setPlayMode(Animation.PlayMode.NORMAL);
 
 
         // Fons de pantalla

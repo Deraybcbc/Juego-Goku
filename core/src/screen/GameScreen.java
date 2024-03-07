@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.Gogeta;
+import com.mygdx.game.JuegoGoku;
 import com.mygdx.game.Robots;
 
 import java.util.ArrayList;
@@ -37,9 +38,12 @@ public class GameScreen implements Screen {
 
     Boolean gameover = false;
 
+    JuegoGoku game;
 
-    public GameScreen() {
 
+    public GameScreen(JuegoGoku game) {
+
+        this.game =game;
 
         AssetManager.load();
 
@@ -97,8 +101,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Dibuixem i actualitzem tots els actors de l'stage
-        stage.draw();
         stage.act(delta);
+        stage.draw();
 
 
         // Verificar si Gogeta ya está dañado
@@ -115,6 +119,7 @@ public class GameScreen implements Screen {
                     if (gogeta.getVidas() <= 0) {
                         gameover = true;
                         stage.getRoot().findActor("Gogeta").remove();
+                        game.setScreen(new GameOver(game));
                     }
                     // Eliminar el robot que colisionó con el Gogeta
                     robotsArrayList.remove(robot);

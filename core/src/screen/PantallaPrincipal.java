@@ -83,7 +83,7 @@ public class PantallaPrincipal implements Screen {
         titleLabelStyle.fontColor = Color.CORAL; // Color del texto del título
 
         // Crear el texto del título
-         titleLabel = new Label("Dragon Ball: Poderes Desatados", titleLabelStyle);
+        titleLabel = new Label("Dragon Ball: Poderes Desatados", titleLabelStyle);
         titleLabel.setFontScale(2); // Escalar el tamaño del título si es necesario
 
         // Configurar la posición del título en el centro de la pantalla
@@ -134,7 +134,7 @@ public class PantallaPrincipal implements Screen {
                 // Obtener la instancia del Game que contiene las pantallas
 
                 // Cambiar a la pantalla de juego
-                game.setScreen(new GameScreen());
+                game.setScreen(new GameScreen(game));
                 return true;
             }
         });

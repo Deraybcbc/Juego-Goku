@@ -40,6 +40,8 @@ public class Gogeta extends Actor {
 
     private boolean damageProcessed = false; // Variable para controlar si el daño ha sido procesado
 
+     private float runTime;
+
 
 
     public Gogeta() {
@@ -55,9 +57,14 @@ public class Gogeta extends Actor {
 
         vidas = 4;
 
+        runTime = 0;
+
     }
 
     public void act(float delta) {
+        super.act(delta); // Asegúrate de llamar al método de la clase base
+
+        runTime += delta;
 
         // Movem l'Spacecraft depenent de la direcció controlant que no surti de la pantalla
         switch (direction) {
@@ -107,6 +114,7 @@ public class Gogeta extends Actor {
             }
         }
     }
+
     public void loseLife() {
         vidas--;
     }
