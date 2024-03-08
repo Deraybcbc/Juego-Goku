@@ -134,4 +134,7 @@
         }
 
 
+        public Circle getCollisionCircle() {
+            return collisionCircle;
+        }
     }

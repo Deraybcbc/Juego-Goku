@@ -1,11 +1,13 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 
 import screen.AssetManager;
 import utils.Settings;
@@ -20,6 +22,8 @@ public class Gogeta extends Actor {
     public static final int GOGETA_RIGHT = 3;
 
     public static final int GOGETA_LEFT = 4;
+
+    public static final int GOGETA_DISPARO = 5;
 
     // Paràmetres de l'Spacecraft
     private Vector2 position;
@@ -42,6 +46,10 @@ public class Gogeta extends Actor {
 
      private float runTime;
 
+    private Array<Disparo> disparos; // Almacenar los disparos del personaje
+
+    private Animation<TextureRegion> currentAnimation;
+    private float animationTime;
 
 
     public Gogeta() {
@@ -55,9 +63,12 @@ public class Gogeta extends Actor {
         // Creem el rectangle de col·lisions con las dimensiones del sprite
         collisionRect = new Rectangle(position.x, position.y, width, height);
 
-        vidas = 4;
+        vidas = 800;
 
         runTime = 0;
+
+        // Inicialización de otros atributos
+        disparos = new Array<>();
 
     }
 
@@ -127,11 +138,21 @@ public class Gogeta extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        if (isDamaged) {
-            batch.draw(AssetManager.gogetaDaño, position.x, position.y, width, height);
+        TextureRegion currentFrame;
+
+        // Si hay una animación actual, dibuja el frame correspondiente
+        if (currentAnimation != null) {
+            currentFrame = currentAnimation.getKeyFrame(animationTime);
         } else {
-            batch.draw(getGogetaTexture(), position.x, position.y, width, height);
+            // Si no hay animación, utiliza la textura de Gogeta estática
+            if (isDamaged) {
+                currentFrame = AssetManager.gogetaDaño;
+            } else {
+                currentFrame = getGogetaTexture();
+            }
         }
+
+        batch.draw(currentFrame, position.x, position.y, width, height);
 
         // Dibujar la hitbox del Gogeta con líneas blancas
         batch.end(); // Finalizar el batch para comenzar a usar líneas primitivas
@@ -142,6 +163,15 @@ public class Gogeta extends Actor {
         shapeRenderer.rect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
         shapeRenderer.end();
         batch.begin(); // Volver a comenzar el batch para dibujar texturas
+    }
+
+    public void activateShootAnimation() {
+        currentAnimation = AssetManager.disparosgogeta;
+        animationTime = 1; // Reinicia el tiempo de animación para empezar desde el primer frame
+    }
+
+    public void deactivateShootAnimation() {
+        currentAnimation = null; // Desactivar la animación de disparo
     }
 
     public TextureRegion getGogetaTexture() {
@@ -240,4 +270,6 @@ public class Gogeta extends Actor {
     public void setVidas(int vidas) {
         this.vidas = vidas;
     }
+
+
 }

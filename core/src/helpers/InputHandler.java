@@ -1,9 +1,12 @@
 package helpers;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.mygdx.game.Disparo;
 import com.mygdx.game.Gogeta;
 
 import screen.GameScreen;
+import utils.Settings;
 
 public class InputHandler implements InputProcessor {
 
@@ -23,12 +26,34 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        return false;
+        switch (keycode) {
+            case Input.Keys.SPACE:
+
+                gogeta.activateShootAnimation();
+                // Obtener la posición actual del personaje
+                float gogetaX = gogeta.getX();
+                float gogetaY = gogeta.getY();
+
+                // Calcular la posición inicial del disparo para que salga desde el centro del personaje
+                float disparoX = gogetaX + gogeta.getWidth() - Settings.DISPARO_WIDTH / 2;
+                float disparoY = gogetaY + gogeta.getHeight() / 2 - Settings.DISPARO_HEIGHT / 2;
+
+                // Crear un nuevo disparo con la posición calculada
+                Disparo disparo = new Disparo(disparoX, disparoY);
+                screen.getStage().addActor(disparo);
+                break;
+        }
+        return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        return false;
+        switch (keycode) {
+            case Input.Keys.SPACE:
+                gogeta.deactivateShootAnimation(); // Desactivar la animación de disparo
+                break;
+        }
+        return true;
     }
 
     @Override

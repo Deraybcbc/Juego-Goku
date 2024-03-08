@@ -64,12 +64,12 @@ public class GameOver implements Screen {
         titleLabel.setFontScale(2); // Escalar el tamaño del título si es necesario
 
         // Configurar la posición del título en el centro de la pantalla
-        titleLabel.setPosition((Settings.GAME_WIDTH - titleLabel.getWidth()) / 3, (Settings.GAME_HEIGHT - titleLabel.getHeight()) / 3);
+        titleLabel.setPosition((Settings.GAME_WIDTH - titleLabel.getWidth()) / 3, (Settings.GAME_HEIGHT - titleLabel.getHeight()) /2 );
 
         // Creem la nau i la resta d'objectes
         // Crear el actor para la animación del Gogeta muerto
         gogeta = new GogetaDead();
-        gogeta.setPosition((Settings.GAME_WIDTH - gogeta.getWidth()) / 2, (Settings.GAME_HEIGHT - titleLabel.getHeight()) / 3);
+        //gogeta.setPosition((Settings.GAME_WIDTH - gogeta.getWidth()) / 2, (Settings.GAME_HEIGHT - titleLabel.getHeight()) / 3);
         stage.addActor(gogeta);
     }
 

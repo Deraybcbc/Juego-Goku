@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.mygdx.game.Disparo;
 import com.mygdx.game.Gogeta;
 import com.mygdx.game.JuegoGoku;
 import com.mygdx.game.Robots;
@@ -32,6 +33,9 @@ public class GameScreen implements Screen {
     // Asteroides
     int numAsteroids;
     ArrayList<Robots> robotsArrayList;
+
+    ArrayList<Disparo> disparos;
+
 
     // Objecte random
     Random r;
@@ -65,6 +69,8 @@ public class GameScreen implements Screen {
         // Inicializar la lista de robots
         robotsArrayList = new ArrayList<>();
 
+        disparos = new ArrayList<>();
+
         stage.addActor(scrollHandler);
 
         // Creem la nau i la resta d'objectes
@@ -93,6 +99,10 @@ public class GameScreen implements Screen {
         stage.addActor(robot);
     }
 
+    // Método para agregar un nuevo disparo a la lista de disparos
+    private void agregarDisparo(Disparo disparo) {
+        disparos.add(disparo);
+    }
 
     @Override
     public void render(float delta) {
@@ -129,6 +139,19 @@ public class GameScreen implements Screen {
             }
         }
 
+        // Verificar colisiones entre disparos y robots
+        for (Disparo disparo : disparos) {
+            for (Robots robot : robotsArrayList) {
+                if (disparo.collidesWithRobot(robot)) {
+                    // Eliminar el robot y el disparo
+                    disparo.remove();
+                    robot.remove();
+                    disparos.remove(disparo);
+                    robotsArrayList.remove(robot);
+                    break; // Salir del bucle interno ya que un disparo solo puede colisionar con un robot a la vez
+                }
+            }
+        }
 
         // Generar un nuevo robot aleatorio a intervalos regulares
         if (random.nextFloat() < Settings.ROBOT_SPAWN_CHANCE_PER_FRAME) {
