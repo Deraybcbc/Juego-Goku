@@ -4,6 +4,7 @@ import static com.badlogic.gdx.math.MathUtils.random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -31,19 +32,17 @@ public class GameScreen implements Screen {
 
     private Robots robots;
 
-    // Asteroides
-    int numAsteroids;
     ArrayList<Robots> robotsArrayList;
 
     ArrayList<Disparo> disparos;
 
 
-    // Objecte random
-    Random r;
 
     Boolean gameover = false;
 
     JuegoGoku game;
+
+    int puntos;
 
 
     public GameScreen(JuegoGoku game) {
@@ -83,6 +82,8 @@ public class GameScreen implements Screen {
 
 
         gogeta.setName("Gogeta");
+
+        puntos = 0;
 
 
         // Assignem com a gestor d'entrada la classe InputHandler
@@ -129,6 +130,13 @@ public class GameScreen implements Screen {
                     gogeta.setDamaged(true);
                     System.out.println("GOLPES: " + gogeta.getDamageCount());
                     System.out.println("VIDAS: " + gogeta.getVidas());
+                    if (puntos <= 0){
+                        puntos = 0;
+                    }else{
+                        puntos -=10;
+                    }
+
+                    System.out.println("Puntos quitados: "+puntos);
                     if (gogeta.getVidas() <= 0) {
                         gameover = true;
                         stage.getRoot().findActor("Gogeta").remove();
@@ -148,9 +156,13 @@ public class GameScreen implements Screen {
                 Robots robot = robotsArrayList.get(j);
                 if (disparo.collidesWithRobot(robot)) {
                     System.out.println("DISPARO DADO");
-                    disparo.startExplosion(); // Iniciar la animación de explosión
                     disparo.remove();
                     robot.remove();
+                    puntos +=10;
+                    System.out.println("Puntos: "+ puntos);
+                    if(puntos < 0){
+                        puntos = 0;
+                    }
                     disparos.remove(disparo);
                     robotsArrayList.remove(robot);
                     break; // Sal del bucle interno
@@ -173,9 +185,15 @@ public class GameScreen implements Screen {
             }
         }
 
+        // Dibujar los puntos en la pantalla
+        game.getSpriteBatch().begin();
+        game.getBitmapFont().setColor(Color.WHITE); // Color del texto
+        game.getBitmapFont().draw(game.getSpriteBatch(), "Puntos: " + puntos, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 20);
+        game.getBitmapFont().draw(game.getSpriteBatch(), "Vidas: " + gogeta.getVidas(), 20, Gdx.graphics.getHeight() - 20);
+
+        game.getSpriteBatch().end();
 
     }
-
 
     @Override
     public void resize(int width, int height) {

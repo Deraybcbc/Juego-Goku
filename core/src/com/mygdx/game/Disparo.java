@@ -31,10 +31,8 @@ public class Disparo extends Actor {
 
     private boolean remove = false; // Bandera para indicar si el disparo debe eliminarse
 
-    // Animación de explosión
-    private Animation<TextureRegion> explosionAnimation;
-    private boolean explosionStarted = false;
-    private float explosionTime = 0;
+    private boolean golep = false;
+
 
 
     public Disparo(float x, float y) {
@@ -47,8 +45,6 @@ public class Disparo extends Actor {
         // Creem el rectangle de col·lisions con las dimensiones del sprite
         hitbox = new Rectangle(position.x, position.y, Settings.DISPARO_WIDTH, Settings.DISPARO_HEIGHT);
 
-        // Cargar la animación de explosión desde AssetManager
-        explosionAnimation = AssetManager.explosionRobot;
     }
 
     @Override
@@ -64,13 +60,6 @@ public class Disparo extends Actor {
             remove = true;
         }
 
-        // Actualizar animación de explosión si está activada
-        if (explosionStarted) {
-            explosionTime += delta;
-            if (explosionTime >= explosionAnimation.getAnimationDuration()) {
-                remove = true; // Cuando la animación termina, eliminar el disparo
-            }
-        }
 
         // Actualizar la posición del rectángulo de colisión
         hitbox.setPosition(position.x, position.y);
@@ -96,14 +85,8 @@ public class Disparo extends Actor {
         batch.begin(); // Volver a comenzar el batch para dibujar texturas
     }
 
-    public boolean shouldRemove() {
-        return remove;
-    }
 
     // Método para iniciar la animación de explosión
-    public void startExplosion() {
-        explosionStarted = true;
-    }
 
     public Rectangle getHitbox() {
         return hitbox;
@@ -118,5 +101,13 @@ public class Disparo extends Actor {
             return true;
         }
         return false;
+    }
+
+    public boolean isGolep() {
+        return golep;
+    }
+
+    public void setGolep(boolean golep) {
+        this.golep = golep;
     }
 }

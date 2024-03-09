@@ -26,7 +26,7 @@ public class Settings {
     public static final float GOGETA_STARTX_DEAD = (GAME_WIDTH - GOGETA_WIDTH_DEAD) / 2;
     public static final float GOGETA_STARTY_DEAD = (GAME_HEIGHT - GOGETA_HEIGHT_DEAD) / 2;
 
-    public static final float DISPARO_VELOCITY_X = 200; // Ajusta el valor según sea necesario
+    public static final float DISPARO_VELOCITY_X = 500; // Ajusta el valor según sea necesario
 
 
     // Rang de valors per canviar la mida de l'asteroide
