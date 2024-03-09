@@ -40,7 +40,8 @@ public class InputHandler implements InputProcessor {
 
                 // Crear un nuevo disparo con la posición calculada
                 Disparo disparo = new Disparo(disparoX, disparoY);
-                screen.getStage().addActor(disparo);
+                screen.agregarDisparo(disparo);
+                //screen.getStage().addActor(disparo);
                 break;
         }
         return true;

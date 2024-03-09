@@ -19,6 +19,7 @@ public class AssetManager {
 
     public static Animation disparosgogeta;
 
+    public static Animation explosionRobot;
 
     public static TextureRegion[] robots;
 
@@ -92,6 +93,22 @@ public class AssetManager {
         disparosgogeta = new Animation(0.50f, gogetaDisparo);
         disparosgogeta.setPlayMode(Animation.PlayMode.LOOP);
 
+        explosion = new TextureRegion[11];
+
+        explosion[0] = new TextureRegion(sheetenemigos, 820,788, 92,73);
+        explosion[1] = new TextureRegion(sheetenemigos, 725,787, 92,73);
+        explosion[2] = new TextureRegion(sheetenemigos, 641,789, 92,73);
+        explosion[3] = new TextureRegion(sheetenemigos, 556,785, 92,73);
+        explosion[4] = new TextureRegion(sheetenemigos, 472,783, 92,73);
+        explosion[5] = new TextureRegion(sheetenemigos, 394,783, 92,73);
+        explosion[6] = new TextureRegion(sheetenemigos, 310,781, 92,73);
+        explosion[7] = new TextureRegion(sheetenemigos, 237,778, 92,73);
+        explosion[8] = new TextureRegion(sheetenemigos, 167,777, 92,73);
+        explosion[9] = new TextureRegion(sheetenemigos, 106,776, 92,73);
+        explosion[10] = new TextureRegion(sheetenemigos, 50,776, 92,73);
+
+        explosionRobot = new Animation(0.50f, explosion);
+        explosionRobot.setPlayMode(Animation.PlayMode.LOOP);
 
 
         // Fons de pantalla

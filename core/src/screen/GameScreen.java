@@ -14,6 +14,7 @@ import com.mygdx.game.JuegoGoku;
 import com.mygdx.game.Robots;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import cat.xtec.ioc.objects.ScrollHandler;
@@ -80,6 +81,7 @@ public class GameScreen implements Screen {
 
         stage.addActor(gogeta);
 
+
         gogeta.setName("Gogeta");
 
 
@@ -100,8 +102,9 @@ public class GameScreen implements Screen {
     }
 
     // Método para agregar un nuevo disparo a la lista de disparos
-    private void agregarDisparo(Disparo disparo) {
+    public void agregarDisparo(Disparo disparo) {
         disparos.add(disparo);
+        stage.addActor(disparo); // Agregar el disparo al Stage
     }
 
     @Override
@@ -139,16 +142,18 @@ public class GameScreen implements Screen {
             }
         }
 
-        // Verificar colisiones entre disparos y robots
-        for (Disparo disparo : disparos) {
-            for (Robots robot : robotsArrayList) {
+        for (int i = disparos.size() - 1; i >= 0; i--) {
+            Disparo disparo = disparos.get(i);
+            for (int j = robotsArrayList.size() - 1; j >= 0; j--) {
+                Robots robot = robotsArrayList.get(j);
                 if (disparo.collidesWithRobot(robot)) {
-                    // Eliminar el robot y el disparo
+                    System.out.println("DISPARO DADO");
+                    disparo.startExplosion(); // Iniciar la animación de explosión
                     disparo.remove();
                     robot.remove();
                     disparos.remove(disparo);
                     robotsArrayList.remove(robot);
-                    break; // Salir del bucle interno ya que un disparo solo puede colisionar con un robot a la vez
+                    break; // Sal del bucle interno
                 }
             }
         }
@@ -168,19 +173,10 @@ public class GameScreen implements Screen {
             }
         }
 
-    }
-/*
-    public boolean collides(Gogeta gogeta) {
 
-        // Comprovem les col·lisions entre cada asteroide i la nau
-        for (Robots robots1 : robotsArrayList) {
-            if (robots1.collides(gogeta)) {
-                return true;
-            }
-        }
-        return false;
     }
-*/
+
+
     @Override
     public void resize(int width, int height) {
 

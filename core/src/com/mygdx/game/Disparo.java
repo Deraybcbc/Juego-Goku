@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -30,6 +31,11 @@ public class Disparo extends Actor {
 
     private boolean remove = false; // Bandera para indicar si el disparo debe eliminarse
 
+    // Animación de explosión
+    private Animation<TextureRegion> explosionAnimation;
+    private boolean explosionStarted = false;
+    private float explosionTime = 0;
+
 
     public Disparo(float x, float y) {
         position = new Vector2(x, y);
@@ -40,6 +46,9 @@ public class Disparo extends Actor {
 
         // Creem el rectangle de col·lisions con las dimensiones del sprite
         hitbox = new Rectangle(position.x, position.y, Settings.DISPARO_WIDTH, Settings.DISPARO_HEIGHT);
+
+        // Cargar la animación de explosión desde AssetManager
+        explosionAnimation = AssetManager.explosionRobot;
     }
 
     @Override
@@ -55,13 +64,24 @@ public class Disparo extends Actor {
             remove = true;
         }
 
+        // Actualizar animación de explosión si está activada
+        if (explosionStarted) {
+            explosionTime += delta;
+            if (explosionTime >= explosionAnimation.getAnimationDuration()) {
+                remove = true; // Cuando la animación termina, eliminar el disparo
+            }
+        }
+
         // Actualizar la posición del rectángulo de colisión
         hitbox.setPosition(position.x, position.y);
+
+
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+
         // Dibujar el disparo en la posición actual
         batch.draw(AssetManager.disparo, position.x, position.y, Settings.DISPARO_WIDTH, Settings.DISPARO_HEIGHT);
 
@@ -80,19 +100,22 @@ public class Disparo extends Actor {
         return remove;
     }
 
+    // Método para iniciar la animación de explosión
+    public void startExplosion() {
+        explosionStarted = true;
+    }
+
     public Rectangle getHitbox() {
         return hitbox;
     }
 
     public boolean collidesWithRobot(Robots robot) {
 
-        hitbox.set((position.x + width / 2 - robot.getX()), (position.y + height / 2 - robot.getY()), Settings.DISPARO_WIDTH, Settings.DISPARO_HEIGHT);
+        hitbox.set((position.x - Settings.DISPARO_WIDTH / 2), (position.y - Settings.DISPARO_HEIGHT / 2), Settings.DISPARO_WIDTH, Settings.DISPARO_HEIGHT);
 
-        if (position.x <= robot.getX() + robot.getWidth()) {
-            // Comprobamos si han colisionado siempre que el robot esté a la misma altura que Gogeta
-            if (Intersector.overlaps(robot.getCollisionCircle(), hitbox)) {
-                return true;
-            }
+        // Verificar si hay una colisión entre la hitbox del robot y la hitbox del disparo
+        if (Intersector.overlaps(robot.getCollisionCircle(), hitbox)) {
+            return true;
         }
         return false;
     }
