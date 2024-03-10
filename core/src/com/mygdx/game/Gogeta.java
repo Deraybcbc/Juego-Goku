@@ -63,7 +63,7 @@ public class Gogeta extends Actor {
         // Creem el rectangle de col·lisions con las dimensiones del sprite
         collisionRect = new Rectangle(position.x, position.y, width, height);
 
-        vidas = 800;
+        vidas = 1;
 
         runTime = 0;
 

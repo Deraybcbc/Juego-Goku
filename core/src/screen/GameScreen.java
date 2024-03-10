@@ -140,7 +140,7 @@ public class GameScreen implements Screen {
                     if (gogeta.getVidas() <= 0) {
                         gameover = true;
                         stage.getRoot().findActor("Gogeta").remove();
-                        game.setScreen(new GameOver(game));
+                        game.setScreen(new GameOver(game, puntos));
                     }
                     // Eliminar el robot que colisionó con el Gogeta
                     robotsArrayList.remove(robot);

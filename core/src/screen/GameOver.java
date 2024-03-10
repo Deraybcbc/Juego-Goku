@@ -30,10 +30,17 @@ public class GameOver implements Screen {
 
     GogetaDead gogeta;
 
+    int puntosfinal;
 
-    public GameOver(JuegoGoku game) {
+    private Label puntosLabel;
+
+
+
+    public GameOver(JuegoGoku game, int puntos) {
 
         this.game = game;
+
+        this.puntosfinal = puntos;
 
         AssetManager.load();
 
@@ -71,6 +78,22 @@ public class GameOver implements Screen {
         gogeta = new GogetaDead();
         //gogeta.setPosition((Settings.GAME_WIDTH - gogeta.getWidth()) / 2, (Settings.GAME_HEIGHT - titleLabel.getHeight()) / 3);
         stage.addActor(gogeta);
+
+// Crear la fuente para los puntos
+        BitmapFont puntosFont = new BitmapFont(); // Puedes ajustar los parámetros según lo desees
+
+        // Crear el estilo para los puntos
+        Label.LabelStyle puntosLabelStyle = new Label.LabelStyle();
+        puntosLabelStyle.font = puntosFont;
+        puntosLabelStyle.fontColor = Color.WHITE; // Color del texto de los puntos
+
+        // Crear el texto para los puntos
+        puntosLabel = new Label("Puntos: " + puntosfinal, puntosLabelStyle);
+        puntosLabel.setFontScale(2); // Escalar el tamaño del texto si es necesario
+
+        // Configurar la posición de los puntos encima de la animación de Gogeta
+        puntosLabel.setPosition(Settings.GOGETA_STARTX_DEAD, Settings.GOGETA_STARTY_DEAD + gogeta.getHeight() +250); // Ajusta la posición según tu preferencia
+        stage.addActor(puntosLabel);
     }
 
     @Override
@@ -94,7 +117,8 @@ public class GameOver implements Screen {
         game.getSpriteBatch().begin();
 
         titleLabel.draw(game.getSpriteBatch(), 1);
-
+        // Dibujar y actualizar la etiqueta de los puntos
+        puntosLabel.draw(game.getSpriteBatch(), 1);
         game.getSpriteBatch().end();
 
     }
