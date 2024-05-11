@@ -19,6 +19,10 @@
 
             spriteBatch = new SpriteBatch();
             bitmapFont = new BitmapFont();
+            AssetManager.load();
+
+            AssetManager.music.play();
+            AssetManager.Sonidodisparo.stop();
 
             // I definim la pantalla principal com a la pantalla
             setScreen(new PantallaPrincipal(this));

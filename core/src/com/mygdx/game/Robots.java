@@ -63,6 +63,7 @@
             super.draw(batch, parentAlpha);
             batch.draw((TextureRegion) AssetManager.robotsAnim.getKeyFrame(runTime, true), position.x, position.y, width, height);
 
+            /*
             // Dibujar la hitbox del robot con líneas blancas
             batch.end(); // Finalizar el batch para comenzar a usar líneas primitivas
             ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -71,7 +72,7 @@
             shapeRenderer.setColor(1, 1, 1, 1); // Establecer color blanco
             shapeRenderer.circle(position.x + width / 2, position.y + height / 2, width / 2);
             shapeRenderer.end();
-            batch.begin(); // Volver a comenzar el batch para dibujar texturas
+            batch.begin(); // Volver a comenzar el batch para dibujar texturas*/
 
         }
 

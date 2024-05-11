@@ -35,14 +35,13 @@ public class GameOver implements Screen {
     private Label puntosLabel;
 
 
-
     public GameOver(JuegoGoku game, int puntos) {
 
         this.game = game;
 
         this.puntosfinal = puntos;
-
-        AssetManager.load();
+        AssetManager.music.stop();
+        AssetManager.pelea.stop();
 
         // Creem la càmera de les dimensions del joc
         camera = new OrthographicCamera(Settings.GAME_WIDTH, Settings.GAME_HEIGHT);
@@ -71,7 +70,7 @@ public class GameOver implements Screen {
         titleLabel.setFontScale(2); // Escalar el tamaño del título si es necesario
 
         // Configurar la posición del título en el centro de la pantalla
-        titleLabel.setPosition((Settings.GAME_WIDTH - titleLabel.getWidth()) / 3, (Settings.GAME_HEIGHT - titleLabel.getHeight()) /2 );
+        titleLabel.setPosition((Settings.GAME_WIDTH - titleLabel.getWidth()) / 3, (Settings.GAME_HEIGHT - titleLabel.getHeight()) / 2);
 
         // Creem la nau i la resta d'objectes
         // Crear el actor para la animación del Gogeta muerto
@@ -92,7 +91,7 @@ public class GameOver implements Screen {
         puntosLabel.setFontScale(2); // Escalar el tamaño del texto si es necesario
 
         // Configurar la posición de los puntos encima de la animación de Gogeta
-        puntosLabel.setPosition(Settings.GOGETA_STARTX_DEAD, Settings.GOGETA_STARTY_DEAD + gogeta.getHeight() +250); // Ajusta la posición según tu preferencia
+        puntosLabel.setPosition(Settings.GOGETA_STARTX_DEAD, Settings.GOGETA_STARTY_DEAD + gogeta.getHeight() + 250); // Ajusta la posición según tu preferencia
         stage.addActor(puntosLabel);
     }
 
@@ -145,6 +144,6 @@ public class GameOver implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

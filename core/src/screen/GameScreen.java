@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.Disparo;
 import com.mygdx.game.Gogeta;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import cat.xtec.ioc.objects.Background;
 import cat.xtec.ioc.objects.ScrollHandler;
 import helpers.InputHandler;
 import utils.Settings;
@@ -37,19 +40,27 @@ public class GameScreen implements Screen {
     ArrayList<Disparo> disparos;
 
 
-
     Boolean gameover = false;
 
     JuegoGoku game;
 
     int puntos;
 
+    Background background, bg_back;
+
+    ProgressBar progressBar;
+
+    Skin skin;
+
+
 
     public GameScreen(JuegoGoku game) {
 
-        this.game =game;
+        this.game = game;
 
-        AssetManager.load();
+        AssetManager.music.stop();
+        AssetManager.pelea.play();
+        AssetManager.pelea.setVolume(AssetManager.volumen);
 
         // Creem la càmera de les dimensions del joc
         OrthographicCamera camera = new OrthographicCamera(Settings.GAME_WIDTH, Settings.GAME_HEIGHT);
@@ -64,22 +75,38 @@ public class GameScreen implements Screen {
         // Creem l'stage i assginem el viewport
         stage = new Stage(viewport);
 
-        scrollHandler = new ScrollHandler();
+        skin = new Skin(Gdx.files.internal("skin_vida/tubular-ui.json"));
+
+
+        background = new Background(0, 0, Settings.GAME_WIDTH * 2, Settings.GAME_HEIGHT, Settings.BG_SPEED); // Ajusta la velocidad según sea necesario
+        bg_back = new Background(background.getX() + background.getWidth(), 0, Settings.GAME_WIDTH * 2, Settings.GAME_HEIGHT, Settings.BG_SPEED);
+
+
 
         // Inicializar la lista de robots
         robotsArrayList = new ArrayList<>();
 
         disparos = new ArrayList<>();
 
-        stage.addActor(scrollHandler);
-
         // Creem la nau i la resta d'objectes
         gogeta = new Gogeta();
 
         robots = new Robots();
 
-        stage.addActor(gogeta);
+        //BARRA DE VIDA
+        ProgressBar.ProgressBarStyle progressBarStyle = skin.get("default-horizontal", ProgressBar.ProgressBarStyle.class);
 
+        // Crear e inicializar el ProgressBar con el estilo obtenido
+        progressBar = new ProgressBar(0, gogeta.getVidas(), 1, false, progressBarStyle);
+        progressBar.setHeight(20);
+        progressBar.setWidth(gogeta.getWidth()); // Ancho igual al de Gogeta
+        progressBar.setValue(gogeta.getVidas()); // Valor inicial igual a la vida actual de Gogeta
+
+        stage.addActor(background);
+        stage.addActor(bg_back);
+
+        stage.addActor(gogeta);
+        stage.addActor(progressBar);
 
         gogeta.setName("Gogeta");
 
@@ -118,6 +145,11 @@ public class GameScreen implements Screen {
         stage.act(delta);
         stage.draw();
 
+        // Actualizar el valor de la ProgressBar con la vida actual de Gogeta
+        progressBar.setValue(gogeta.getVidas());
+
+        // Sincronizar la posición de la ProgressBar con la posición de Gogeta
+        progressBar.setPosition(gogeta.getX(), gogeta.getY() + gogeta.getHeight() + 10); // Puedes ajustar la posición como desees
 
         // Verificar si Gogeta ya está dañado
         if (!gogeta.isDamaged()) {
@@ -130,13 +162,13 @@ public class GameScreen implements Screen {
                     gogeta.setDamaged(true);
                     System.out.println("GOLPES: " + gogeta.getDamageCount());
                     System.out.println("VIDAS: " + gogeta.getVidas());
-                    if (puntos <= 0){
+                    if (puntos <= 0) {
                         puntos = 0;
-                    }else{
-                        puntos -=10;
+                    } else {
+                        puntos -= 10;
                     }
 
-                    System.out.println("Puntos quitados: "+puntos);
+                    System.out.println("Puntos quitados: " + puntos);
                     if (gogeta.getVidas() <= 0) {
                         gameover = true;
                         stage.getRoot().findActor("Gogeta").remove();
@@ -158,9 +190,9 @@ public class GameScreen implements Screen {
                     System.out.println("DISPARO DADO");
                     disparo.remove();
                     robot.remove();
-                    puntos +=10;
-                    System.out.println("Puntos: "+ puntos);
-                    if(puntos < 0){
+                    puntos += 10;
+                    System.out.println("Puntos: " + puntos);
+                    if (puntos < 0) {
                         puntos = 0;
                     }
                     disparos.remove(disparo);
@@ -217,7 +249,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 
     public Stage getStage() {

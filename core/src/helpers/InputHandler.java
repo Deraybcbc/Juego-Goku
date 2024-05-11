@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.mygdx.game.Disparo;
 import com.mygdx.game.Gogeta;
 
+import screen.AssetManager;
 import screen.GameScreen;
 import utils.Settings;
 
@@ -28,7 +29,9 @@ public class InputHandler implements InputProcessor {
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.SPACE:
-
+                if (gogeta.getVidas() <= 0) {
+                    AssetManager.Sonidodisparo.stop();
+                }
                 gogeta.activateShootAnimation();
                 // Obtener la posición actual del personaje
                 float gogetaX = gogeta.getX();
@@ -51,6 +54,9 @@ public class InputHandler implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.SPACE:
+                if (gogeta.getVidas() <= 0) {
+                    AssetManager.Sonidodisparo.stop();
+                }
                 gogeta.deactivateShootAnimation(); // Desactivar la animación de disparo
                 break;
         }

@@ -42,6 +42,9 @@ public class Gogeta extends Actor {
 
     private int vidas; // Atributo para las vidas
 
+    private int vidasTotales; // Atributo para las vidas
+
+
     private boolean damageProcessed = false; // Variable para controlar si el daño ha sido procesado
 
      private float runTime;
@@ -63,7 +66,7 @@ public class Gogeta extends Actor {
         // Creem el rectangle de col·lisions con las dimensiones del sprite
         collisionRect = new Rectangle(position.x, position.y, width, height);
 
-        vidas = 1;
+        vidas = 3;
 
         runTime = 0;
 
@@ -153,7 +156,7 @@ public class Gogeta extends Actor {
         }
 
         batch.draw(currentFrame, position.x, position.y, width, height);
-
+/*
         // Dibujar la hitbox del Gogeta con líneas blancas
         batch.end(); // Finalizar el batch para comenzar a usar líneas primitivas
         ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -162,15 +165,17 @@ public class Gogeta extends Actor {
         shapeRenderer.setColor(1, 1, 1, 1); // Establecer color blanco
         shapeRenderer.rect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
         shapeRenderer.end();
-        batch.begin(); // Volver a comenzar el batch para dibujar texturas
+        batch.begin(); // Volver a comenzar el batch para dibujar texturas*/
     }
 
     public void activateShootAnimation() {
         currentAnimation = AssetManager.disparosgogeta;
+        AssetManager.Sonidodisparo.play(AssetManager.volumenTotal);
         animationTime = 1; // Reinicia el tiempo de animación para empezar desde el primer frame
     }
 
     public void deactivateShootAnimation() {
+        AssetManager.Sonidodisparo.play(0);
         currentAnimation = null; // Desactivar la animación de disparo
     }
 

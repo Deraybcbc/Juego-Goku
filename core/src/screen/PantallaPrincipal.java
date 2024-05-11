@@ -33,7 +33,7 @@ public class PantallaPrincipal implements Screen {
 
     Background background, bg_back;
 
-    private Stage stage, buttonStage;
+    private Stage stage;
     private SpriteBatch spriteBatch;
 
     // Per obtenir el batch de l'stage
@@ -48,14 +48,13 @@ public class PantallaPrincipal implements Screen {
 
     private Label titleLabel;
 
-
+    private Skin skin, skin_vida;
 
 
     public PantallaPrincipal(JuegoGoku game) {
 
         this.game = game;
 
-        AssetManager.load();
 
         // Creem la càmera de les dimensions del joc
         camera = new OrthographicCamera(Settings.GAME_WIDTH, Settings.GAME_HEIGHT);
@@ -66,67 +65,41 @@ public class PantallaPrincipal implements Screen {
 
         // Creem el viewport amb les mateixes dimensions que la càmera
         StretchViewport viewport = new StretchViewport(Settings.GAME_WIDTH, Settings.GAME_HEIGHT, camera);
-        StretchViewport button = new StretchViewport(Settings.GAME_WIDTH, Settings.GAME_HEIGHT, camera);
-
 
         // Creem l'stage i assginem el viewport
         stage = new Stage(viewport);
-        buttonStage = new Stage(button);
+
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 
-        // Crear la fuente del título
-        titleFont = new BitmapFont(); // Puedes ajustar los parámetros según lo desees
-
-        // Crear el estilo del título
-        Label.LabelStyle titleLabelStyle = new Label.LabelStyle();
-        titleLabelStyle.font = titleFont;
-        titleLabelStyle.fontColor = Color.CORAL; // Color del texto del título
-
-        // Crear el texto del título
-        titleLabel = new Label("Dragon Ball: Poderes Desatados", titleLabelStyle);
-        titleLabel.setFontScale(2); // Escalar el tamaño del título si es necesario
-
-        // Configurar la posición del título en el centro de la pantalla
-        titleLabel.setPosition((Settings.GAME_WIDTH - titleLabel.getWidth()) / 5, (Settings.GAME_HEIGHT - titleLabel.getHeight()) / 2);
+        background = new Background(0, 0, Settings.GAME_WIDTH * 2, Settings.GAME_HEIGHT, Settings.BG_SPEED); // Ajusta la velocidad según sea necesario
+        bg_back = new Background(background.getX() + background.getWidth(), 0, Settings.GAME_WIDTH * 2, Settings.GAME_HEIGHT, Settings.BG_SPEED);
 
 
-        font = new BitmapFont();
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font;
-        labelStyle.fontColor = Color.BLACK;
+        // Obtén el estilo de la etiqueta "title" del Skin
+        Label.LabelStyle titleLabelStyle = skin.get("default", Label.LabelStyle.class);
 
-        TextButton.TextButtonStyle empezarJuegoButtonStyle = new TextButton.TextButtonStyle();
-        empezarJuegoButtonStyle.font = font;
-        empezarJuegoButtonStyle.fontColor = Color.BLACK;
+        // Crea una instancia de Label con el texto "R6 PIXEL" y el nuevo estilo
+        Label titleLabel = new Label("Dragon Ball: Poderes Desatados", titleLabelStyle);
 
+        // Escala el tamaño del título
+        titleLabel.setFontScale(3); // Ajusta el valor según lo desees para aumentar o disminuir el tamaño del título
 
-// Establecer el fondo del botón (puedes personalizarlo según tus necesidades)
-        TextureRegionDrawable buttonStarts = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("starts.png"))));
-        empezarJuegoButtonStyle.up = buttonStarts;
+        // Calcula la posición X centrada en la pantalla
+        float posX = (Settings.GAME_WIDTH - titleLabel.getWidth() - 500);
 
-        /*
-        // Establecer el fondo del botón (puedes personalizarlo según tus necesidades)
-        TextureRegionDrawable buttonSettings = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("settings.png"))));
-        TextureRegionDrawable buttonStarts = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("starts.png"))));*/
+        // Establece la posición del título
+        titleLabel.setPosition(posX, Settings.GAME_HEIGHT - titleLabel.getHeight() - 100); // Alinea el título en la parte superior y centrado, con un espacio de 20 píxeles desde el borde superior
 
 
-        // Crear los botones
-        TextButton empezarJuegoButton = new TextButton("", empezarJuegoButtonStyle);
-        //TextButton menuButton = new TextButton("Menu", buttonStyle);
+        //BOTONES
+        TextButton.TextButtonStyle textButtonStyle = skin.get("round", TextButton.TextButtonStyle.class);
 
-        // Crear un nuevo Table para organizar los botones
-        buttonTable = new Table();
-        buttonTable.setFillParent(true); // El Table se ajustará al tamaño del stage
-
-        // Agregar los botones al Table
-        //buttonTable.add(empezarJuegoButton).padBottom(20).row(); // Agrega el botón "Empezar Juego" con un espacio inferior de 20 píxeles
-        //buttonTable.add(menuButton).padBottom(20).row(); // Agrega el botón "Menú" con un espacio inferior de 20 píxeles
-
-        // Agregar el Table al stage
-        //buttonStage.addActor(buttonTable);
+        // Crear instancia del TextButton con el estilo obtenido del Skin
+        TextButton btn_play = new TextButton("PLAY", textButtonStyle);
 
         // Agregar oyentes de eventos a los botones si es necesario
-        empezarJuegoButton.addListener(new InputListener() {
+        btn_play.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // Acción cuando se hace clic en el botón de empezar juego
@@ -139,34 +112,41 @@ public class PantallaPrincipal implements Screen {
             }
         });
 
-        // Agregar el botón "Empezar Juego" al Table
-        buttonTable.add(empezarJuegoButton).padBottom(20).row();
+        TextButton btn_settings = new TextButton("SETTINGS", textButtonStyle);
 
-        /*menuButton.addListener(new InputListener() {
-            @Override
+        btn_settings.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //Acción cuando se hace clic en el botón de menú
-                System.out.println("Menú");
+                // Acción cuando se hace clic en el botón de empezar juego
+                System.out.println("SETTINGS");
+                // Obtener la instancia del Game que contiene las pantallas
+
+                // Cambiar a la pantalla de juego
+                game.setScreen(new SettingsScreen(game));
                 return true;
             }
-        });*/
+        });
 
-        // Agregar los botones al stage
-        //buttonStage.addActor(empezarJuegoButton);
-        //buttonStage.addActor(menuButton);
+        // Crea una tabla para organizar los elementos en el escenario
+        Table table = new Table();
+        table.setFillParent(true); // Hace que la tabla ocupe todo el tamaño del escenario
+
+        // Agrega el botón a la tabla
+        table.add(btn_play).size(200, 70).center().padBottom(20).row(); // Alinea el botón al centro de la tabla y agrega un espacio inferior de 20 píxeles
+        table.add(btn_settings).size(200, 70).center().padBottom(20); // Alinea el botón al centro de la tabla y agrega un espacio inferior de 20 píxeles
 
 
-// Agregar el Table al stage
-        buttonStage.addActor(buttonTable);
+        //AÑADIMOS EL FONDO AL STAGE
+        stage.addActor(background);
+        stage.addActor(bg_back);
 
-        scrollHandler = new ScrollHandler();
+        // Añade el título al stage
+        stage.addActor(titleLabel);
 
-        // Afegim els actors a l'stage
-        stage.addActor(scrollHandler);
+        // Añade la tabla al escenario
+        stage.addActor(table);
 
         // Establece el procesador de entrada para que sea el Stage de los botones
-        Gdx.input.setInputProcessor(buttonStage);
-
+        Gdx.input.setInputProcessor(stage);
 
     }
 
@@ -177,26 +157,12 @@ public class PantallaPrincipal implements Screen {
     @Override
     public void render(float delta) {
 
-        // Limpiar la pantalla
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.update();
 
         // Dibuixem i actualitzem tots els actors de l'stage
         stage.draw();
         stage.act(delta);
-
-        // Dibuixem los botones
-        buttonStage.act(delta);
-        buttonStage.draw();
-
-        camera.update();
-
-        game.getSpriteBatch().begin();
-
-        // Dibujar el título utilizando Label
-        titleLabel.draw(game.getSpriteBatch(), 1);
-
-        game.getSpriteBatch().end();
 
     }
 
@@ -225,6 +191,5 @@ public class PantallaPrincipal implements Screen {
         batch.dispose();
         font.dispose();
         stage.dispose();
-        buttonStage.dispose();
     }
 }

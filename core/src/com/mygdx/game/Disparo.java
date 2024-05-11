@@ -74,6 +74,7 @@ public class Disparo extends Actor {
         // Dibujar el disparo en la posición actual
         batch.draw(AssetManager.disparo, position.x, position.y, Settings.DISPARO_WIDTH, Settings.DISPARO_HEIGHT);
 
+        /*
         // Dibujar la hitbox del Gogeta con líneas blancas
         batch.end(); // Finalizar el batch para comenzar a usar líneas primitivas
         ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -82,7 +83,7 @@ public class Disparo extends Actor {
         shapeRenderer.setColor(1, 1, 1, 1); // Establecer color blanco
         shapeRenderer.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
         shapeRenderer.end();
-        batch.begin(); // Volver a comenzar el batch para dibujar texturas
+        batch.begin(); // Volver a comenzar el batch para dibujar texturas*/
     }
 
 

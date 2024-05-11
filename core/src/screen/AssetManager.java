@@ -1,6 +1,8 @@
 package screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -32,6 +34,13 @@ public class AssetManager {
 
     // Font
     public static BitmapFont font;
+
+    public static Music music, pelea;
+
+    public static Sound Sonidodisparo;
+
+    public static float volumen = 1f;
+    public static float volumenTotal = 1f;
 
     public static void load() {
 
@@ -114,6 +123,25 @@ public class AssetManager {
         // Fons de pantalla
         background = new TextureRegion(sheet);
 
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("intro.mp3"));
+        music.setVolume(volumen);
+        music.setLooping(true);
+
+        pelea = Gdx.audio.newMusic(Gdx.files.internal("pelea.mp3"));
+        music.setVolume(volumen);
+        music.setLooping(true);
+
+        Sonidodisparo = Gdx.audio.newSound(Gdx.files.internal("bola_energia.mp3"));
+        Sonidodisparo.setVolume(Sonidodisparo.play(), volumenTotal);
+
+    }
+
+    // En algún lugar donde quieras cambiar el volumen del sonido
+    public static void setVolumenTotal(float nuevoVolumen) {
+        volumenTotal = nuevoVolumen;
+        // También actualiza el volumen del sonido disparo si está actualmente reproduciéndose
+        Sonidodisparo.setVolume(Sonidodisparo.play(), volumenTotal);
     }
 
     public static void dispose() {
